@@ -1,0 +1,24 @@
+(define (quote-present s)
+  (if (not (equal? (car (caddr s)) 'quote))
+      (defprim-error 'make-scheme-arg
+	"Quote is not present in the type of ~a" s)) 
+      (cadr (caddr s))))
+
+(define (table? s)
+    (and (pair? s)
+	 (equal? (car s) 'deftable)
+	 (and (symbol? (car   (cadr s)))
+	      (integer? (cadr  (cadr s)))
+	    (integer? (caddr (cadr s))))
+	 (smember (quote-present s)
+		  '(float double int Value))))
+
+(define (table-def s)
+ (and (table? s)
+      (let ((name (car (cadr s)))
+	    (type (quote-present s))
+	    (values (cadr s)))
+	(fmt "~a ~a\[~a\]\[~a\];" type name (cadr values) (caddr values)))))
+
+(define (buid-var-list 
+ 

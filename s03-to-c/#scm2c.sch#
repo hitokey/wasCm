@@ -425,7 +425,7 @@
 (define (id-set nm)
    (string->symbol (string-append (symbol->string nm) "_set")))
 
-
+;; DEFINE TABLE
 (define (table? s)
   (and (pair? s) (equal? (car s) 'define)
        (and (symbol? (car   (cadr s)))
@@ -456,6 +456,8 @@
     (fmt "~a ~a(int ~a, int ~a){\n\treturn ~a\[~a\]\[~a\];}"
 	 type (id-ref name) (car var) (cadr var)
 	 name (car var) (cadr var)) ))
+
+;; END DEFINE TABLE
 
 (define (ccomp  s env vars)
   (define (cco s  vars)
@@ -522,6 +524,7 @@
 		            "Illegal cside -- ~a" (list s) )))
 	        (c (string-ref z 0))
 		(sexpr? (equal? c #\s))]
+    ;;; CSIDE TABLE
     (if (table? s)
 	(str-app (table-def s) "\n\n" (table-set s) "\n\n" (table-ref s) "\n\n")
 	(str-app (fun-id s) "("

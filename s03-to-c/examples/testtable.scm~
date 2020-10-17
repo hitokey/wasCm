@@ -1,0 +1,4 @@
+(define (name i j) (int 10 10))
+
+(letrec [(xx 42.0)]
+  (display (aref xx 1 1)))
